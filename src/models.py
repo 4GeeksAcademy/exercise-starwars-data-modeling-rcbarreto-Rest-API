@@ -1,9 +1,10 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Enum
+from sqlalchemy import Column, ForeignKey, Integer, String, Enum, DateTime
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
+from sqlalchemy.sql import func
 from enum import Enum as PyEnum
 
 Base = declarative_base()
@@ -17,47 +18,40 @@ class User(Base):
     firstname = Column(String(250), nullable=False)
     lastname = Column(String(250), nullable=False)
     email = Column(String(250), unique = True, nullable=False)
+    date_subscription = Column(DateTime, default=func.now())
 
-class Follower(Base):
-    __tablename__ = 'follower'
+class Planet(Base):
+    __tablename__ = 'planet'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_form_id = Column(Integer, ForeignKey('user.id'))
-    user_to_id = Column(Integer, ForeignKey('user.id'))
-
-class Comment(Base):
-    __tablename__ = 'comment'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    comment_text = Column(String(800))
-    author_id = Column(Integer, ForeignKey('user.id'))
-    post_id = Column(Integer, ForeignKey('post.id'))
+    name = Column(String(250), nullable=False)
+    description = Column(String(800))
+    weather = Column(String(250))
+    population = Column(String(250))
+    
+    
     
 
-class Post(Base):
-    __tablename__ = 'post'
+class Character(Base):
+    __tablename__ = 'character'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    origin_planet = Column(String(250), nullable=False)
+    eye_color = Column(String(250), nullable=False)
+    hair_color = Column(String(250), nullable=False)
+
+class Favorite(Base):
+    __tablename__ = 'favorite'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-
-class MediaType (PyEnum):
-    Reel = "reel"
-    Picture = "picture"
-    Story = "story"
-
-
-class Media(Base):
-    __tablename__ = 'media'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    type = Column (Enum('MediaType'))
-    url = Column(String(800))
-    post_id = Column(Integer, ForeignKey('post.id'))
-
+    character_id = Column(Integer, ForeignKey('character.id'))
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    
 
 ## Draw from SQLAlchemy base
 try:
