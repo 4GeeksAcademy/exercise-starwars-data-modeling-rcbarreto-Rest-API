@@ -31,8 +31,8 @@ class Planet(Base):
     
     
 
-class Character(Base):
-    __tablename__ = 'character'
+class People(Base):
+    __tablename__ = 'people'
    
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -46,8 +46,8 @@ class Favorite(Base):
    
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    character_id = Column(Integer, ForeignKey('character.id'))
-    planet_id = Column(Integer, ForeignKey('planet.id'))
+    people_id = Column(Integer, ForeignKey('character.id'))
+    planet_id = Column(Integer, ForeignKey('people.id'))
     
 
 ## Draw from SQLAlchemy base
