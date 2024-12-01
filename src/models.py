@@ -1,18 +1,17 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Enum, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
 from sqlalchemy.sql import func
-from enum import Enum as PyEnum
+
 
 Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'user'
-    # Here we define columns for the table user
-    # Notice that each column is also a normal Python instance attribute.
+ 
     id = Column(Integer, primary_key=True)
     username = Column(String(250), nullable=False)
     firstname = Column(String(250), nullable=False)
@@ -22,31 +21,29 @@ class User(Base):
 
 class Planet(Base):
     __tablename__ = 'planet'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+ 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     description = Column(String(800))
     weather = Column(String(250))
-    population = Column(String(250))
+    population = Column(Integer)
     
     
     
 
 class Character(Base):
     __tablename__ = 'character'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+   
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    age = Column(Integer)
     origin_planet = Column(String(250), nullable=False)
     eye_color = Column(String(250), nullable=False)
     hair_color = Column(String(250), nullable=False)
 
 class Favorite(Base):
     __tablename__ = 'favorite'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+   
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     character_id = Column(Integer, ForeignKey('character.id'))
